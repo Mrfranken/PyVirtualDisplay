@@ -41,7 +41,7 @@ class AbstractDisplay(EasyProcess):
     Common parent for Xvfb and Xephyr
     """
 
-    def __init__(self, use_xauth=False, check_startup=False, randomizer=None):
+    def __init__(self, use_xauth=False, check_startup=True, randomizer=None):
         with mutex:
             self.display = self.search_for_display(randomizer=randomizer)
             while self.display in USED_DISPLAY_NR_LIST:
