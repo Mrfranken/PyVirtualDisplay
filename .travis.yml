@@ -51,9 +51,6 @@ addons:
       - gnumeric
       - x11-utils
       - x11-apps
-  # homebrew:
-  #   casks:
-  #     - xquartz
 
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PIP=pip; else PIP=pip3; fi
@@ -61,25 +58,12 @@ install:
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then PYTHON=python; fi
   - $PIP install $PIPUSER --upgrade -r requirements-test.txt
   - $PIP install $PIPUSER --upgrade .
+  # http://blog.tigerteufel.de/?p=476
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then mkdir /tmp/.X11-unix;sudo chmod 1777 /tmp/.X11-unix;sudo chown root /tmp/.X11-unix/; fi
 
-# https://github.com/travis-ci/travis-ci/issues/7313
-# http://blog.tigerteufel.de/?p=476
 script:
-  - mkdir /tmp/.X11-unix
-  - sudo chmod 1777 /tmp/.X11-unix
-  - sudo chown root /tmp/.X11-unix/
-  # - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
-  # - sleep 5
-  # - DISPLAY=:99 xdpyinfo
-  # - sleep 5
   - cd tests
-  - Xephyr -br -screen 1024x768x24 -resizeable :1008
   - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
-# after_success:
-#   - coveralls
 
-# - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701
-# - sleep 5
-# - Xvfb :1071
-# - sleep 5
-# - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
+after_success:
+  - coveralls

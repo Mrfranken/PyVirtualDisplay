@@ -154,6 +154,9 @@ class AbstractDisplay(EasyProcess):
         d = self.new_display_var
         ok = False
         while True:
+            if not EasyProcess.is_alive(self):
+                break
+
             try:
                 xdpyinfo = EasyProcess("xdpyinfo")
                 xdpyinfo.enable_stdout_log = False
