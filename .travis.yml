@@ -67,7 +67,7 @@ install:
 script:
   - ls -la /tmp
   - mkdir /tmp/.X11-unix
-  - sudo chmod 1777/tmp/.X11-unix
+  - sudo chmod 1777 /tmp/.X11-unix
   - sudo chown root /tmp/.X11-unix/
 
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
