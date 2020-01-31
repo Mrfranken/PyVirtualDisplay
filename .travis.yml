@@ -63,12 +63,10 @@ install:
   - $PIP install $PIPUSER --upgrade .
 
 script:
-  - ls /tmp/.X11-unix/
-  - ls /tmp/
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xdpyinfo -version; fi
-  - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701 &
+  - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701
   - sleep 5
-  - Xvfb :1071 &
+  - Xvfb :1071
   - sleep 5
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then brew cask info xquartz; fi
