@@ -63,14 +63,17 @@ install:
   - $PIP install $PIPUSER --upgrade .
 
 script:
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xdpyinfo -version; fi
-  - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
   - sleep 5
-  - Xvfb :1071
+  - DISPLAY=:99 xdpyinfo
   - sleep 5
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then brew cask info xquartz; fi
   - cd tests
   # - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
 # after_success:
 #   - coveralls
+
+# - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701
+# - sleep 5
+# - Xvfb :1071
+# - sleep 5
+# - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
