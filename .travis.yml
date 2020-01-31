@@ -73,6 +73,7 @@ script:
   # - DISPLAY=:99 xdpyinfo
   # - sleep 5
   - cd tests
+  - Xephyr -br -screen 1024x768x24 -resizeable :1008
   - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
 # after_success:
 #   - coveralls
