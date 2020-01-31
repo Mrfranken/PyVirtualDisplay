@@ -22,9 +22,9 @@ matrix:
     #   python: 3.7
     #   dist: bionic
 
-    - name: 3.8_bionic
-      python: 3.8
-      dist: bionic
+    # - name: 3.8_bionic
+    #   python: 3.8
+    #   dist: bionic
 
     - name: "Python 3.7 on macOS"
       os: osx
@@ -64,11 +64,14 @@ install:
 
 script:
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xdpyinfo -version; fi
+  - Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1701 &
+  - sleep 5
+  - Xvfb :1071 &
+  - sleep 5
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xvfb-run xdpyinfo; fi
+  - which Xvfb
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then brew cask info xquartz; fi
   - cd tests
-  - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
-
-after_success:
-  - coveralls
+  # - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
+# after_success:
+#   - coveralls
