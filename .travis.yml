@@ -1,26 +1,26 @@
 language: python
 python:
   - "2.7"
-  - "3.5"
-  - "3.6"
+  # - "3.5"
+  # - "3.6"
 
 matrix:
   include:
-    - name: 3.7_xenial
-      python: 3.7
-      dist: xenial
+    # - name: 3.7_xenial
+    #   python: 3.7
+    #   dist: xenial
 
-    - name: 3.8_xenial
-      python: 3.8
-      dist: xenial
+    # - name: 3.8_xenial
+    #   python: 3.8
+    #   dist: xenial
 
-    - name: 2.7_bionic
-      python: 2.7
-      dist: bionic
+    # - name: 2.7_bionic
+    #   python: 2.7
+    #   dist: bionic
 
-    - name: 3.7_bionic
-      python: 3.7
-      dist: bionic
+    # - name: 3.7_bionic
+    #   python: 3.7
+    #   dist: bionic
 
     - name: 3.8_bionic
       python: 3.8
@@ -30,7 +30,8 @@ matrix:
       os: osx
       osx_image: xcode11.2 # Python 3.7.4 running on macOS 10.14.4
       language: shell # 'language: python' is an error on Travis CI macOS
-      env: PATH=/Users/travis/Library/Python/3.7/bin:/opt/X11/bin:$PATH PIPUSER=--user
+      env: PATH=/Users/travis/Library/Python/3.7/bin:$PATH PIPUSER=--user
+      # env: PATH=/Users/travis/Library/Python/3.7/bin:/opt/X11/bin:$PATH PIPUSER=--user
 
     # - name: "Python 3.8 on Windows"
     #   os: windows # Windows 10.0.17134 N/A Build 17134
@@ -50,10 +51,9 @@ addons:
       - gnumeric
       - x11-utils
       - x11-apps
-
-  homebrew:
-    casks:
-      - xquartz
+  # homebrew:
+  #   casks:
+  #     - xquartz
 
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then PIP=pip; else PIP=pip3; fi
@@ -63,6 +63,9 @@ install:
   - $PIP install $PIPUSER --upgrade .
 
 script:
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xdpyinfo -version; fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 0.1;DISPLAY=:1001 xdpyinfo; fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then brew cask info xquartz; fi
   - cd tests
   - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
 
