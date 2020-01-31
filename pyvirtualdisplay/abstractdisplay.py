@@ -155,6 +155,9 @@ class AbstractDisplay(EasyProcess):
         ok = False
         while True:
             if not EasyProcess.is_alive(self):
+                log.warning("process exited early:%s", self)
+                EasyProcess.wait(self)
+                log.warning("process exited early:%s", self)
                 break
 
             try:
