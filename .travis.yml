@@ -64,7 +64,8 @@ install:
 
 script:
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xdpyinfo -version; fi
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 0.1;DISPLAY=:1001 xdpyinfo; fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then (Xvfb -br -nolisten tcp -screen 0 1366x768x24 :1001 &);sleep 5;DISPLAY=:1001 xdpyinfo; fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then xvfb-run xdpyinfo; fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then brew cask info xquartz; fi
   - cd tests
   - nosetests -v --with-coverage --cover-package=pyvirtualdisplay .
