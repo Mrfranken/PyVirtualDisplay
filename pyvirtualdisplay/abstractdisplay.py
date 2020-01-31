@@ -160,12 +160,10 @@ class AbstractDisplay(EasyProcess):
         ok = False
         while True:
             if not EasyProcess.is_alive(self):
+                # EasyProcess.wait(self)  # TODO: remove
                 log.warning("process exited early",)
-                EasyProcess.wait(self)
-                # log.warning("process exited early:%s", self)
                 msg = "Failed to start process: %s"
                 raise XStartError(msg % self)
-                # break
 
             try:
                 xdpyinfo = EasyProcess("xdpyinfo")
