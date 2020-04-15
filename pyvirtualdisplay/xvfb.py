@@ -41,7 +41,7 @@ class XvfbDisplay(AbstractDisplay):
         self.display = None
         self.fbdir = fbdir
         self.dpi = dpi
-        AbstractDisplay.__init__(self, randomizer=randomizer)
+        # AbstractDisplay.__init__(self, randomizer=randomizer)
 
     @classmethod
     def check_installed(cls):
